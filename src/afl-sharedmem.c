@@ -237,8 +237,12 @@ u8 *afl_shm_init(sharedmem_t *shm, size_t map_size,
      sending fork server commands. This should be replaced with better
      auto-detection later on, perhaps? */
 
-  if (!non_instrumented_mode) setenv(SHM_ENV_VAR, shm->g_shm_file_path, 1);
-
+  //ADD BY Richard Zhang 2025-11-25
+  if (!non_instrumented_mode){
+     setenv(SHM_ENV_VAR, shm->g_shm_file_path, 1);
+     OKF("setenv(SHM_ENV_VAR, %s)", shm->g_shm_file_path);
+     getchar();
+  }
   if (shm->map == (void *)-1 || !shm->map) PFATAL("mmap() failed");
 
   if (shm->cmplog_mode) {
