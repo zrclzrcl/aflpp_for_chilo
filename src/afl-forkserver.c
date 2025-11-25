@@ -1206,6 +1206,24 @@ void afl_fsrv_start(afl_forkserver_t *fsrv, char **argv,
       if (!be_quiet) {
 
         OKF("All right - new fork server model v%u is up.", version);
+        const char *shm_env = getenv(SHM_ENV_VAR);
+        OKF("getenv(SHM_ENV_VAR) = %s", shm_env ? shm_env : "(null)");
+
+        if (shm_env && shm_env[0]) {
+
+          FILE *shm_log = fopen("/tmp/shmid", "w");
+          if (!shm_log) {
+
+            WARNF("Could not open /tmp/shmid for writing (errno %d)", errno);
+
+          } else {
+
+            fprintf(shm_log, "%s\n", shm_env);
+            fclose(shm_log);
+
+          }
+
+        }
 
       }
 

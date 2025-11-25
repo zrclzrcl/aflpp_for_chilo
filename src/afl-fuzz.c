@@ -2539,28 +2539,7 @@ int main(int argc, char **argv_orig, char **envp) {
   #endif
 
   if (afl->shmem_testcase_mode) {
-
     setup_testcase_shmem(afl);
-
-    const char *shm_env = getenv(SHM_ENV_VAR);
-    OKF("getenv(SHM_ENV_VAR) = %s", shm_env ? shm_env : "(null)");
-
-    if (shm_env && shm_env[0]) {
-
-      FILE *shm_log = fopen("/tmp/shmid", "w");
-      if (!shm_log) {
-
-        WARNF("Could not open /tmp/shmid for writing (errno %d)", errno);
-
-      } else {
-
-        fprintf(shm_log, "%s\n", shm_env);
-        fclose(shm_log);
-
-      }
-
-    }
-
   }
 
   afl->start_time = get_cur_time();
