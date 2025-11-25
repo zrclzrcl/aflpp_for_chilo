@@ -238,18 +238,8 @@ u8 *afl_shm_init(sharedmem_t *shm, size_t map_size,
      auto-detection later on, perhaps? */
 
   //ADD BY Richard Zhang 2025-11-25
-  if (!non_instrumented_mode){
-    setenv(SHM_ENV_VAR, shm->g_shm_file_path, 1);
-    OKF("setenv(SHM_ENV_VAR, %s)", shm->g_shm_file_path);
-    FILE *shm_log = fopen("/tmp/shm_id", "a");
-    if (shm_log) {
-      fprintf(shm_log, "%s\n", shm->g_shm_file_path);
-      fclose(shm_log);
-    } else {
-      WARNF("could not open /tmp/shm_id for logging");
-    }
-    getchar();
-  }
+  if (!non_instrumented_mode) setenv(SHM_ENV_VAR, shm->g_shm_file_path, 1);
+  
   if (shm->map == (void *)-1 || !shm->map) PFATAL("mmap() failed");
 
   if (shm->cmplog_mode) {
